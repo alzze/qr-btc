@@ -3,12 +3,48 @@
 <head>
   <title>QR Generator</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-</head>
-<body style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; font-family: monospace; gap: 3rem;">
 
-  
+  <style>
+    body {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;  
+      align-items: center;     
+      height: 100vh;
+      margin: 0;
+      gap:5rem;
+      max-width: 800px;
+      width: 90vw;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    #qrcode {
+      width: min(60vw, 400px);
+      display: flex;
+      justify-content: center;
+    }
+
+    #qrcode canvas,
+    #qrcode img {
+      width: 100% !important;
+      height: auto !important;
+    }
+
+    #wallet {
+      color: #1d1d1d;
+      font-weight: bold;
+      font-size: 1.75rem;
+      font-family: Courier;
+      text-align: center;
+      word-break: break-all;
+    }
+  </style>
+</head>
+
+<body>
   <div id="qrcode"></div>
-  <p id="wallet" style="margin-top: 12px; font-weight: 500; font-size: 1.25rem;"></p>
+  <p id="wallet"></p>
 
   <script>
     const params = new URLSearchParams(window.location.search);
@@ -16,7 +52,11 @@
     let extractedWallet = null;
 
     if (data) {
-      new QRCode(document.getElementById("qrcode"), data);
+      new QRCode(document.getElementById("qrcode"), {
+        text: data,
+        width: 800,
+        height: 800
+      });
 
       if (data.startsWith("bitcoin:")) {
         extractedWallet = data.slice("bitcoin:".length).split('?')[0];
@@ -24,5 +64,6 @@
       }
     }
   </script>
+
 </body>
 </html>
